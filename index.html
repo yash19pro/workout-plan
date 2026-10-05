@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Home workout plan</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+<style>
+:root{--bg:#F5F5F7;--surface:#fff;--ink:#1D1D1F;--muted:#6E6E73;--line:#E8E8ED;--ring:#C7C7CC;--seg:#E9E9EE;--accent:#0071E3;--on-accent:#fff;--run:#C4560A;--done:#248A3D;--shadow:0 1px 2px rgba(0,0,0,.04),0 10px 30px rgba(0,0,0,.05);box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:light}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#000;--surface:#1C1C1E;--ink:#F5F5F7;--muted:#98989D;--line:#2C2C2E;--ring:#48484A;--seg:#2C2C2E;--accent:#2997FF;--on-accent:#001B3A;--run:#FF9F0A;--done:#30D158;--shadow:none;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#000;--surface:#1C1C1E;--ink:#F5F5F7;--muted:#98989D;--line:#2C2C2E;--ring:#48484A;--seg:#2C2C2E;--accent:#2997FF;--on-accent:#001B3A;--run:#FF9F0A;--done:#30D158;--shadow:none;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*:before,*:after{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.5 -apple-system,BlinkMacSystemFont,"SF Pro Text","Inter","Helvetica Neue",Arial,sans-serif;-webkit-font-smoothing:antialiased}
+main{max-width:600px;margin:0 auto;padding:32px 20px 72px}
+h1,h2,h3{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Inter","Helvetica Neue",Arial,sans-serif;letter-spacing:-.025em;margin:0}
+h1{font-size:32px;font-weight:600}
+.sub{color:var(--muted);font-size:17px;margin:4px 0 24px}
+#days{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;padding:3px;background:var(--seg);border-radius:12px;margin-bottom:32px}
+#days button{font:500 13px inherit;font-family:inherit;padding:8px 0 6px;border:0;background:transparent;color:var(--muted);border-radius:9px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px}
+#days button i{width:4px;height:4px;border-radius:50%;background:transparent}
+#days button.run i{background:var(--run)}
+#days button.today{color:var(--accent)}
+#days button[aria-selected=true]{background:var(--surface);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.12)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.head{display:flex;justify-content:space-between;align-items:center;gap:12px}
+h2{font-size:40px;font-weight:700;line-height:1.1}
+.badge{font-weight:500;font-size:13px;color:var(--run);border:1px solid var(--line);border-radius:99px;padding:3px 12px;white-space:nowrap}
+.meta{color:var(--muted);margin:6px 0 20px}
+.bar{height:4px;background:var(--seg);border-radius:99px;overflow:hidden}
+.bar div{height:100%;width:0;background:var(--accent);border-radius:99px;transition:width .25s}
+.pr{display:flex;justify-content:space-between;align-items:center;margin:10px 0 8px;color:var(--muted);font-size:14px}
+.link{background:none;border:0;color:var(--accent);font:500 14px inherit;font-family:inherit;cursor:pointer;padding:4px 0}
+h3{font-size:22px;font-weight:600;margin:32px 0 10px;display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+h3 small{font:400 13px inherit;font-family:inherit;color:var(--muted);letter-spacing:0}
+.grp{background:var(--surface);border-radius:18px;box-shadow:var(--shadow);overflow:hidden}
+.row{display:flex;gap:14px;align-items:flex-start;padding:14px 16px;border-bottom:1px solid var(--line)}
+.row:last-child{border-bottom:0}
+.grow{flex:1;min-width:0}
+.top{display:flex;justify-content:space-between;gap:12px;align-items:baseline}
+.grow b{font-weight:600}
+.amt{color:var(--muted);font-size:15px;font-variant-numeric:tabular-nums}
+.top+.amt,.grow>.amt{margin-left:8px}
+.chk{flex:none;width:26px;height:26px;margin-top:1px;border:1.5px solid var(--ring);border-radius:50%;background:transparent;color:#fff;cursor:pointer;font-size:14px;line-height:1}
+.chk[aria-pressed=true]{background:var(--done);border-color:var(--done)}
+.chk[aria-pressed=true]:after{content:"\2713"}
+.sets{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.pill{width:36px;height:36px;border:1.5px solid var(--ring);border-radius:50%;background:transparent;color:var(--ink);font:500 15px inherit;font-family:inherit;cursor:pointer}
+.pill[aria-pressed=true]{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.ctl{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:12px}
+.step{display:inline-flex;align-items:center;background:var(--seg);border-radius:99px}
+.step button{width:34px;height:30px;border:0;background:none;color:var(--accent);font-size:19px;cursor:pointer;line-height:1}
+.step button:disabled{color:var(--ring);cursor:default}
+.step span{min-width:58px;text-align:center;font-size:14px;font-variant-numeric:tabular-nums}
+select{appearance:none;-webkit-appearance:none;background:var(--seg);border:0;border-radius:99px;padding:6px 16px;color:var(--ink);font:500 14px inherit;font-family:inherit;cursor:pointer}
+.all{margin:0 0 12px}
+details{margin-top:10px}
+summary{color:var(--accent);font-size:14px;font-weight:500;cursor:pointer}
+details p{margin:6px 0 0;color:var(--muted);font-size:15px}
+.note{color:var(--muted);font-size:14px;margin:0 0 10px}
+.rest{text-align:center;color:var(--muted);padding:40px 16px;background:var(--surface);border-radius:18px;box-shadow:var(--shadow)}
+.prog{margin-top:36px;background:var(--surface);border-radius:18px;box-shadow:var(--shadow);padding:14px 16px}
+.prog summary{font-size:16px}
+.prog ul{margin:8px 0 0;padding-left:20px;color:var(--muted)}
+.foot{margin-top:24px;display:flex;justify-content:center}
+@media(prefers-reduced-motion:reduce){.bar div{transition:none}}
+</style>
+</head>
+<body>
+<main>
+  <h1>Home workout plan</h1>
+  <p class="sub">5 strength days, 3 runs. Goal: lose fat and build muscle.</p>
+  <nav id="days" role="tablist" aria-label="Days of the week"></nav>
+  <section id="view" aria-live="polite"></section>
+  <details class="prog">
+    <summary>How to add weight and reps over time</summary>
+    <ul>
+      <li>Add 1 rep per set each week.</li>
+      <li>At 12 reps (8 for lunges), add a 4th set.</li>
+      <li>Then use a harder version: incline, then knee, then full push-up.</li>
+      <li>For holds, add 5 sec each week.</li>
+      <li>The last 2 reps should feel hard. Do not push to failure.</li>
+      <li>Stop if you feel sharp pain.</li>
+    </ul>
+  </details>
+  <div class="foot"><button class="link" id="theme" type="button">Switch theme</button></div>
+</main>
+<script>
+var W={
+"Plank":"Lie face down. Rise onto forearms and toes. Keep body straight. Do not let hips sag.",
+"Dead bug":"Lie on back. Arms up, knees bent 90 deg above hips. Lower right arm and left leg slowly. Back stays flat. Switch.",
+"Bicycle crunch":"Lie on back, hands by head. Right elbow to left knee while other leg straightens. Switch slowly.",
+"Glute bridge":"Lie on back, knees bent, feet flat. Push hips up to a straight line from knees to shoulders. Squeeze. Lower slowly.",
+"Bird dog":"On hands and knees. Reach right arm and left leg straight. Hold 2 sec. Switch.",
+"Lying leg raise":"Lie on back, legs straight. Lift legs up. Lower slowly. Stop above floor. Bend knees if lower back lifts.",
+"Mountain climber":"Start in top of push-up. Drive one knee to chest. Switch legs fast.",
+"Side plank":"Lie on side. Rise onto one forearm. Lift hips so body is straight.",
+"Jump rope":"Jump over the rope with small, quick hops.",
+"Incline push-up":"Hands on sturdy table or sofa edge. Body straight. Bend elbows until chest nears edge. Push up. Higher surface is easier.",
+"Knee push-up":"Hands on floor, a bit wider than shoulders. Knees on floor. Straight line from knees to head. Lower chest. Push up.",
+"Pike push-up":"Body in upside-down V. Hands and feet on floor. Bend elbows, lower top of head toward floor. Push up. Bend knees to make easier.",
+"Bottle lateral raise":"Hold a water bottle in each hand. Lift arms out to sides to shoulder height. Lower slowly.",
+"Plank shoulder tap":"Top of push-up, feet wide. Tap left shoulder with right hand. Switch. Keep hips still.",
+"Bodyweight squat":"Feet shoulder-width. Push hips back and bend knees like sitting on a chair. Chest up. Stand.",
+"Reverse lunge":"Step one foot back. Lower back knee close to floor. Push through front foot to stand. Switch legs.",
+"Wall sit":"Back on wall. Slide down until knees bend 90 deg. Hold.",
+"Calf raise":"Stand tall. Rise onto toes. Lower slowly.",
+"Chair dip":"Hands on edge of sturdy chair behind you. Legs forward. Bend elbows, lower hips. Push up. Bend knees to make easier.",
+"Close-grip knee push-up":"Like knee push-up. Hands under chest, close together. Elbows near sides.",
+"Backpack curl":"Hold backpack with both hands, palms up. Elbows at sides. Curl to chest. Lower slowly.",
+"Hammer curl":"Hold a bottle in each hand, palms facing each other. Curl up. Lower slowly.",
+"Superman":"Lie face down, arms forward. Lift arms, chest, and legs a little. Hold 2 sec. Lower.",
+"Backpack bent-over row":"Hold backpack. Push hips back, lean forward, back flat. Pull backpack to lower ribs. Squeeze shoulder blades. Lower slowly.",
+"Reverse snow angel":"Lie face down, arms by sides, palms down. Lift arms and sweep them in a wide arc above head. Return slowly.",
+"Prone T raise":"Lie face down, arms out like a T, thumbs up. Lift arms. Squeeze shoulder blades. Lower.",
+"Good morning":"Stand, hands behind head. Push hips back, lean forward with straight back until you feel a stretch behind thighs. Stand tall.",
+"Jumping jacks":"Jump and spread legs and arms out. Jump back to start.",
+"Cat-cow":"On hands and knees. Arch back up, then dip it down. Move slowly.",
+"Torso twist":"Stand, feet apart. Rotate upper body left and right. Let arms swing.",
+"Hip circles":"Stand on both feet. Draw big circles with your hips.",
+"Leg swings":"Hold a wall. Swing one leg forward and back. Switch.",
+"Arm circles":"Stretch arms out. Make small, then big circles.",
+"Shoulder rolls":"Roll shoulders up, back, and down.",
+"Arm hug swings":"Swing arms wide, then cross them over your chest like a hug.",
+"Arm swings":"Swing arms forward and back in a relaxed way.",
+"Slow squats":"Squat down and up slowly, with no rush.",
+"Ankle circles":"Lift one foot. Draw circles with your toes. Switch.",
+"Thread the needle":"On hands and knees. Slide one arm under chest to the other side. Twist and hold. Switch.",
+"Good morning (light)":"Hands behind head. Hinge forward at hips with a straight back. Stand tall.",
+"Child's pose":"Kneel. Sit back on heels. Reach arms forward on the floor.",
+"Cobra":"Lie face down. Push chest up with hands. Hips stay on floor.",
+"Lying twist":"Lie on back. Drop both bent knees to one side. Keep shoulders flat.",
+"Knee to chest":"Lie on back. Hug one knee to chest. Switch.",
+"Doorway chest stretch":"Forearm on a door frame. Step through gently until chest stretches.",
+"Cross-body shoulder stretch":"Pull one arm across chest with the other hand.",
+"Overhead triceps stretch":"Bend one arm behind head. Pull elbow gently with other hand.",
+"Quad stretch":"Stand on one leg. Pull other heel to buttocks.",
+"Hamstring stretch":"Heel forward on floor, leg straight. Lean forward from hips.",
+"Calf wall stretch":"Hands on wall. Step one leg back. Press that heel down.",
+"Figure-4 glute stretch":"Lie on back. Cross right ankle over left knee. Pull left thigh toward you.",
+"Biceps wall stretch":"Palm flat on wall, fingers back. Turn body away gently.",
+"Lat stretch":"Hold a table edge. Push hips back. Let chest sink down.",
+"Seated twist":"Sit cross-legged. Turn upper body to one side. Switch.",
+"Hug stretch":"Wrap arms around yourself. Round upper back.",
+"Hip flexor stretch":"Kneel on one knee. Push hips forward gently."
+};
+var RS=["Calf wall stretch","Quad stretch","Hamstring stretch","Hip flexor stretch"];
+var D=[
+{d:"Mon",n:"Monday",s:"Core",t:"45 min",
+ pre:[4,40,["Cat-cow","Torso twist","Hip circles","Leg swings"]],
+ ex:[["Plank",3,"20 sec"],["Dead bug",3,"8 per side"],["Bicycle crunch",3,"10 per side"],["Glute bridge",3,"12"],["Bird dog",3,"8 per side"],["Lying leg raise",3,"8"],["Mountain climber",3,"20 sec"],["Side plank",2,"15 sec per side"],["Jump rope",1,"5 min, optional"]],
+ post:[5,30,["Child's pose","Cobra","Lying twist","Knee to chest"]]},
+{d:"Tue",n:"Tuesday",s:"Chest + Shoulders",t:"Up to 1.5 hr",run:"5 km, after the workout",
+ pre:[3,40,["Arm circles","Shoulder rolls","Arm hug swings","Cat-cow"]],
+ ex:[["Incline push-up",3,"8"],["Knee push-up",3,"6, wide hands"],["Pike push-up",3,"5"],["Bottle lateral raise",3,"10"],["Plank shoulder tap",2,"8 per side"]],
+ post:[5,30,["Doorway chest stretch","Cross-body shoulder stretch","Overhead triceps stretch","Child's pose"].concat(RS)]},
+{d:"Wed",n:"Wednesday",s:"Legs + Arms",t:"45 min",
+ pre:[4,40,["Leg swings","Hip circles","Slow squats","Ankle circles"]],
+ ex:[["Bodyweight squat",3,"12"],["Reverse lunge",3,"8 per leg"],["Wall sit",3,"20 sec"],["Calf raise",3,"15"],["Chair dip",3,"6"],["Close-grip knee push-up",2,"6"],["Backpack curl",3,"10"],["Hammer curl",2,"10"]],
+ post:[5,30,["Quad stretch","Hamstring stretch","Calf wall stretch","Figure-4 glute stretch","Biceps wall stretch"]]},
+{d:"Thu",n:"Thursday",s:"Back",t:"Up to 1.5 hr",run:"5 km, after the workout. Easy pace. Legs may be sore.",
+ pre:[3,40,["Cat-cow","Arm swings","Thread the needle","Good morning (light)"]],
+ ex:[["Superman",3,"10"],["Backpack bent-over row",3,"10"],["Reverse snow angel",3,"8"],["Prone T raise",3,"8"],["Good morning",3,"10"]],
+ post:[5,30,["Child's pose","Lat stretch","Seated twist","Hug stretch"].concat(RS)]},
+{d:"Fri",n:"Friday",s:"Full Body",t:"45 min",note:"Circuit: do all moves in order, then repeat. 3 rounds. Rest 60 sec after each round.",
+ pre:[4,40,["Jumping jacks","Arm circles","Leg swings","Torso twist"]],
+ ex:[["Bodyweight squat",3,"10"],["Incline push-up",3,"8"],["Backpack bent-over row",3,"8"],["Reverse lunge",3,"6 per leg"],["Plank",3,"20 sec"],["Jumping jacks",3,"30 sec"],["Jump rope",1,"5 min, optional"]],
+ post:[5,30,["Child's pose","Hamstring stretch","Quad stretch","Doorway chest stretch"]]},
+{d:"Sat",n:"Saturday",s:"Run only",t:"1 hr",run:"5 km",post:[5,30,RS]},
+{d:"Sun",n:"Sunday",s:"Rest",t:"Optional easy 20 min cycle",rest:1}
+];
+var LV=["Easy","Easy-medium","Medium","Medium-hard","Hard"],F=[1,1.25,1.5,1.75,2];
+var $=function(s){return document.querySelector(s)};
+var done={},cfg={},today=(new Date().getDay()+6)%7,cur=today;
+try{done=JSON.parse(localStorage.getItem("wp.done")||"{}");cfg=JSON.parse(localStorage.getItem("wp.cfg")||"{}")}catch(e){}
+function save(){try{localStorage.setItem("wp.done",JSON.stringify(done));localStorage.setItem("wp.cfg",JSON.stringify(cfg))}catch(e){}}
+function C(i){var k=cur+":"+i;if(!cfg[k])cfg[k]={s:3,l:0};return cfg[k]}
+function amt(a,l){var m=/^(\d+)(.*)$/.exec(a);if(!m||/ min/.test(m[2]))return a;var v=Math.round(m[1]*F[l]);if(/ sec/.test(m[2]))v=Math.max(5,Math.round(m[1]*F[l]/5)*5);return v+m[2]}
+function how(n){return W[n]?'<details><summary>How to do it</summary><p>'+W[n]+'</p></details>':''}
+function chk(k,label){return '<button class="chk" type="button" data-k="'+k+'" aria-label="Done: '+label+'" aria-pressed="'+!!done[k]+'"></button>'}
+function stretches(list,key){
+  return list[2].map(function(n,i){var k=cur+":"+key+":"+i;
+    return '<div class="row">'+chk(k,n)+'<div class="grow"><b>'+n+'</b><span class="amt">'+list[1]+' sec</span>'+how(n)+'</div></div>'}).join("")}
+function pills(i,n){var s="";for(var j=0;j<n;j++){var k=cur+":ex:"+i+":"+j;s+='<button class="pill" type="button" data-k="'+k+'" aria-label="Set '+(j+1)+' done" aria-pressed="'+!!done[k]+'">'+(j+1)+'</button>'}return s}
+function opts(l){return LV.map(function(n,i){return '<option value="'+i+'"'+(i===l?" selected":"")+'>'+n+'</option>'}).join("")}
+function exRow(e,i){
+  var c=C(i),lv=LV.map(function(n,j){return n+" "+amt(e[2],j)}).join(" · ");
+  return '<div class="row" data-r="'+i+'"><div class="grow"><div class="top"><b>'+e[0]+'</b><span class="amt">'+c.s+' × '+amt(e[2],c.l)+'</span></div>'+
+  '<div class="sets">'+pills(i,c.s)+'</div>'+
+  '<div class="ctl"><div class="step"><button type="button" data-a="-1" aria-label="Fewer sets: '+e[0]+'">\u2212</button><span>'+c.s+' sets</span><button type="button" data-a="1" aria-label="More sets: '+e[0]+'">+</button></div>'+
+  '<select aria-label="Difficulty: '+e[0]+'">'+opts(c.l)+'</select></div>'+
+  '<details><summary>How to do it</summary><p>'+W[e[0]]+'</p><p>Reps by level: '+lv+'</p></details></div></div>'}
+function tabs(){
+  $("#days").innerHTML=D.map(function(x,i){
+    return '<button type="button" role="tab" aria-selected="'+(i===cur)+'" class="'+(x.run?"run ":"")+(i===today?"today":"")+'" data-i="'+i+'" aria-label="'+x.n+(x.run?", run day":"")+'">'+x.d+'<i></i></button>'}).join("")}
+function view(){
+  var x=D[cur],h='<div class="head"><h2>'+x.s+'</h2>'+(x.run?'<span class="badge">5 km run</span>':'')+'</div>';
+  h+='<p class="meta">'+x.n+' · '+x.t+'</p>';
+  if(x.rest){h+='<div class="rest">Rest day. Let your body recover. Sleep well and drink water.</div>';$("#view").innerHTML=h;return}
+  h+='<div class="bar"><div id="fill"></div></div><div class="pr"><span id="count"></span><button class="link" id="reset" type="button">Reset day</button></div>';
+  if(x.pre)h+='<h3>Warm-up <small>'+x.pre[0]+' min, moving stretches</small></h3><div class="grp">'+stretches(x.pre,"pre")+'</div>';
+  if(x.ex){h+='<h3>Workout <small>Pick sets and level</small></h3>';
+    if(x.note)h+='<p class="note">'+x.note+'</p>';
+    h+='<div class="ctl all"><select id="all" aria-label="Set difficulty for all exercises"><option value="">Set all exercises to…</option>'+LV.map(function(n,i){return '<option value="'+i+'">'+n+'</option>'}).join("")+'</select></div>';
+    h+='<div class="grp">'+x.ex.map(exRow).join("")+'</div>'}
+  if(x.run){h+='<h3>Run</h3><div class="grp"><div class="row">'+chk(cur+":run","5 km run")+'<div class="grow"><b>5 km</b><span class="amt">'+x.run+'</span><p class="note">About 45 min. Plan 1 hr with the walk to the garden.</p></div></div></div>'}
+  h+='<h3>Cool-down <small>'+x.post[0]+' min, hold each '+x.post[1]+' sec</small></h3><div class="grp">'+stretches(x.post,"post")+'</div>';
+  $("#view").innerHTML=h;count()}
+function count(){
+  var a=document.querySelectorAll("#view [data-k]"),d=document.querySelectorAll('#view [data-k][aria-pressed="true"]');
+  if(!$("#fill"))return;
+  $("#fill").style.width=(a.length?d.length/a.length*100:0)+"%";
+  $("#count").textContent=d.length+" of "+a.length+" done"}
+function refresh(row){
+  var i=+row.dataset.r,e=D[cur].ex[i],c=C(i);
+  for(var j=c.s;j<12;j++)delete done[cur+":ex:"+i+":"+j];
+  row.querySelector(".amt").textContent=c.s+" × "+amt(e[2],c.l);
+  row.querySelector(".sets").innerHTML=pills(i,c.s);
+  row.querySelector(".step span").textContent=c.s+" sets";
+  row.querySelector('[data-a="-1"]').disabled=c.s<=1;
+  row.querySelector('[data-a="1"]').disabled=c.s>=8;
+  save();count()}
+$("#days").addEventListener("click",function(e){var b=e.target.closest("button");if(!b)return;cur=+b.dataset.i;tabs();view()});
+$("#view").addEventListener("click",function(e){
+  var b=e.target.closest("button");if(!b)return;
+  if(b.id==="reset"){Object.keys(done).forEach(function(k){if(k.indexOf(cur+":")===0)delete done[k]});save();view();return}
+  if(b.dataset.a){var r=b.closest("[data-r]"),c=C(+r.dataset.r);c.s=Math.min(8,Math.max(1,c.s+ +b.dataset.a));refresh(r);return}
+  var k=b.dataset.k;if(!k)return;
+  if(done[k])delete done[k];else done[k]=1;
+  b.setAttribute("aria-pressed",!!done[k]);save();count()});
+$("#view").addEventListener("change",function(e){
+  var t=e.target;if(t.tagName!=="SELECT")return;
+  if(t.id==="all"){if(t.value==="")return;D[cur].ex.forEach(function(_,i){C(i).l=+t.value});save();view();return}
+  var r=t.closest("[data-r]");C(+r.dataset.r).l=+t.value;refresh(r)});
+$("#theme").addEventListener("click",function(){
+  var r=document.documentElement,dark=r.dataset.theme?r.dataset.theme==="dark":matchMedia("(prefers-color-scheme:dark)").matches;
+  r.dataset.theme=dark?"light":"dark"});
+tabs();view();
+</script>
+</body>
+</html>
